@@ -3,8 +3,8 @@
   margin: 10px
 </style>
 <template lang="pug">
-.request
-  h2 test useRequest
+.list
+  h2 test list
 
   .search
     el-card
@@ -61,13 +61,13 @@
 </template>
 <script>
 const testPromise = (testData, timeout) =>
-  new Promise(resolve => {
+  new Promise((resolve) => {
     setTimeout(() => {
       resolve(testData)
     }, timeout || 500)
   })
 export default {
-  name: 'Request',
+  name: 'List',
   data() {
     // search
     const searchQState = this.$hooks.useQuickState({
@@ -92,10 +92,10 @@ export default {
           },
         },
         gender: {
-          parse: value => parseInt(value),
+          parse: (value) => parseInt(value),
         },
         status: {
-          parse: value => parseInt(value),
+          parse: (value) => parseInt(value),
         },
       },
 
@@ -164,7 +164,7 @@ export default {
       this.writeSwitch.on()
     },
     writeConfirmClick() {
-      this.$refs.writeForm.validate(valid => {
+      this.$refs.writeForm.validate((valid) => {
         if (valid) {
           if (this.writeQState.state.type === 'add') {
             this.addReq.run()

@@ -1,10 +1,10 @@
+<style lang="sass" scoped>
+</style>
 <template lang="pug">
-#app
-  router-view
+.login login
 </template>
-
 <script>
 export default {
-  name: 'App',
+  name: 'login',
 }
 </script>
