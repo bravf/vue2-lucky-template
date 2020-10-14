@@ -26,8 +26,8 @@ const importAll = context => {
   return routes
 }
 
-const layoutViews = importAll(require.context('../../layout-views', true, /.+\/index\.vue$/))
-const views = importAll(require.context('../../views', true, /.+\/index\.vue$/)).map(config => {
+const layoutViews = importAll(require.context('../layout-views', true, /.+\/index\.vue$/))
+const views = importAll(require.context('../views', true, /.+\/index\.vue$/)).map(config => {
   config.path = '/' + config.path
   if (config.path === '/layout') {
     config.path = '/app'

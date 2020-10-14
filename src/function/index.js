@@ -1,10 +1,10 @@
 import Vue from 'vue'
 import * as hooks from 'vue2hooks'
-import date from './base/date'
-import axios from './base/axios'
-import rules from './base/rules'
-import state from './state/state'
-import permisson from './state/permisson'
+import date from './date'
+import axios from './axios'
+import rules from './rules'
+import state from './state'
+import permisson from './permisson'
 
 const VueProto = Vue.prototype
 VueProto.$hooks = hooks
