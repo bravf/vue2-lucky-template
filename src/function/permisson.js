@@ -1,4 +1,4 @@
-import state from './state'
+import state from '@/state/state'
 
 const check = (...codes) => {
   if (codes.includes('*')) {

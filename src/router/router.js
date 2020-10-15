@@ -1,25 +1,32 @@
-import permisson from './permisson'
+import permisson from '../function/permisson'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
+import { parse } from './side-menu.js'
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 
+const defaultTitle = document.title
 const importAll = context => {
   const routes = []
   for (const key of context.keys()) {
     const keyArr = key.split('/')
     keyArr.shift()
-    const path = keyArr.join('.').replace(/\.index\.vue$/g, '')
+    const path = keyArr
+      .join('.')
+      .replace(/\.index\.vue$/g, '')
+      .split('--')
+      .join('/')
     const component = context(key).default
-    const allowPermissons = component.allowPermissons || ['*']
+    const pid = component.pid || '*'
 
     routes.push({
-      path,
+      path: '/' + path,
       component,
       name: component.name || path,
       meta: {
-        allowPermissons,
+        pid,
+        title: component.title || defaultTitle,
       },
     })
   }
@@ -28,9 +35,7 @@ const importAll = context => {
 
 const layoutViews = importAll(require.context('../layout-views', true, /.+\/index\.vue$/))
 const views = importAll(require.context('../views', true, /.+\/index\.vue$/)).map(config => {
-  config.path = '/' + config.path
   if (config.path === '/layout') {
-    config.path = '/app'
     config.children = layoutViews
   }
   return config
@@ -42,14 +47,25 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   NProgress.start()
-  if (permisson.check(...to.meta.allowPermissons)) {
-    next()
+  const meta = to.meta
+  document.title = meta.title
+  if (!to.matched.length) {
+    next({ path: '/404', replace: true })
   } else {
-    next({ path: '/401', replace: true })
+    if (permisson.check(meta.pid)) {
+      next()
+    } else {
+      next({ path: '/401', replace: true })
+    }
   }
   NProgress.done()
 })
 
-// console.log(views)
+const routes = [...views, ...layoutViews].reduce((table, view) => {
+  table[view.path] = view
+  return table
+}, {})
 
-export default router
+const sideMenuConfig = parse(routes)
+
+export { router, routes, sideMenuConfig }

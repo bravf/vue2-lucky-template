@@ -4,7 +4,7 @@
 </style>
 <template lang="pug">
 .list
-  h2 test list
+  h2 test user list
 
   .search
     el-card
@@ -67,8 +67,8 @@ const testPromise = (testData, timeout) =>
     }, timeout || 500)
   })
 export default {
-  name: 'List',
-  title: '列表页',
+  name: 'UserList',
+  title: '用户列表页',
   data() {
     // search
     const searchQState = this.$hooks.useQuickState({
