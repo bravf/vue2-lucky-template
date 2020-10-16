@@ -18,7 +18,7 @@ export default {
           group: 'el-menu-item-group',
           item: 'el-menu-item',
         }[node.type]
-        const children = (node.children || []).map(f)
+        const children = node.children.map(f)
         const title = h('template', { slot: 'title' }, [
           node.icon ? h('i', { class: { [node.icon]: true } }) : null,
           h('span', [node.title]),

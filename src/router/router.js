@@ -66,6 +66,10 @@ const routes = [...views, ...layoutViews].reduce((table, view) => {
   return table
 }, {})
 
-const sideMenuConfig = parse(routes)
+const originalPush = VueRouter.prototype.push
+VueRouter.prototype.push = function push(location) {
+  return originalPush.call(this, location).catch(err => err)
+}
 
+const sideMenuConfig = parse(routes)
 export { router, routes, sideMenuConfig }
